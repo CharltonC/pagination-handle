@@ -10,7 +10,7 @@ import {
  * Usage:
  *      const list = ['a', 'b', 'c', 'd'];
  *
- *      const example = pgnHandle.createState(list, {
+ *      const example = pgnHandle.getState(list, {
  *           page: 1,                       // optional starting page index
  *           increment: [100, 200, 300],    // used for <select>'s <option> (default 10 per page, i.e. [10])
  *           incrementIdx: 0,               // i.e. 100 per age
@@ -25,7 +25,7 @@ export class PgnHandle {
      * Merge the updated option with existing option (either custom or default)
      * e.g. existingOption = this.state.sortOption
      */
-    createOption(modOption: Partial<IOption>, existingOption?: IOption): IOption {
+    getOption(modOption: Partial<IOption>, existingOption?: IOption): IOption {
         const baseOption = existingOption ? existingOption : this.getDefOption();
         return { ...baseOption, ...modOption };
     }
@@ -40,7 +40,7 @@ export class PgnHandle {
     }
 
     //// Full State
-    createState(list: any[], pgnOption: Partial<IOption>): IState {
+    getState(list: any[], pgnOption: Partial<IOption>): IState {
         // Merge def. option with User's option
         const defOption: IOption = this.getDefOption();
         const { increment: [defIncrmVal] } = defOption;
@@ -367,8 +367,8 @@ export class PgnHandle {
 
     getGenericCmpEvtHandler(data: any[], option: IOption, callback?: TFn): TFn {
         return ((modOption: Partial<IOption>): void => {
-            const pgnOption: IOption = this.createOption(modOption, option);
-            const pgnState: IState = this.createState(data, pgnOption);
+            const pgnOption: IOption = this.getOption(modOption, option);
+            const pgnState: IState = this.getState(data, pgnOption);
             if (callback) callback({ pgnOption, pgnState });
         });
     }

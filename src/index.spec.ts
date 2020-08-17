@@ -34,7 +34,7 @@ describe('Class - Paginate Handle', () => {
     });
 
     describe('Method Group - Full State and Option', () => {
-        describe('Method: createState - Get Pagination state based on list and user option', () => {
+        describe('Method: getState - Get Pagination state based on list and user option', () => {
             const mockList: any[] = ['a', 'b', 'c', 'd', 'e', 'f'];
 
             describe('test with spied/mocked methods', () => {
@@ -54,7 +54,7 @@ describe('Class - Paginate Handle', () => {
                 });
 
                 it('should return def paginate state when list only has 1 or less items', () => {
-                    expect(handle.createState(['a'], mockPgnOption)).toEqual(mockEmptyObj);
+                    expect(handle.getState(['a'], mockPgnOption)).toEqual(mockEmptyObj);
                     expect(spy.getDefOption).toHaveBeenCalled();
                     expect(spy.getNoPerPage).toHaveBeenCalledWith(increment, incrementIdx, increment[0]);
                     expect(spy.getDefState).toHaveBeenCalledWith(1, mockNoPerPage);
@@ -62,7 +62,7 @@ describe('Class - Paginate Handle', () => {
                 });
 
                 it('should return def paginate state when total page is lte 1', () => {
-                    expect(handle.createState(mockList, mockPgnOption)).toEqual(mockEmptyObj);
+                    expect(handle.getState(mockList, mockPgnOption)).toEqual(mockEmptyObj);
                     expect(spy.getDefOption).toHaveBeenCalled();
                     expect(spy.getNoPerPage).toHaveBeenCalledWith(increment, incrementIdx, increment[0]);
                     expect(spy.getTotalPage).toHaveBeenCalledWith(mockList.length, mockNoPerPage);
@@ -91,7 +91,7 @@ describe('Class - Paginate Handle', () => {
                     spy.parseRelPage.mockReturnValue(mockParsedRelPage);
                     spy.getSpreadCtx.mockReturnValue(mockSpread);
 
-                    expect(handle.createState(mockList, mockPgnOption)).toEqual({
+                    expect(handle.getState(mockList, mockPgnOption)).toEqual({
                         ...mockSliceIdx,
                         ...mockParsedRelPage,
                         ...mockSpread,
@@ -118,7 +118,7 @@ describe('Class - Paginate Handle', () => {
                 const mockPgnOption: Partial<IOption> = { increment: [mockPerPage] };
 
                 it('should return paginate state by default', () => {
-                    expect(handle.createState(mockList, mockPgnOption)).toEqual({
+                    expect(handle.getState(mockList, mockPgnOption)).toEqual({
                         curr: 0,
                         startIdx: 0,
                         endIdx: 4,
@@ -140,7 +140,7 @@ describe('Class - Paginate Handle', () => {
 
                 it('should return paginate state when provided current page index', () => {
                     const mockCurrPage: number = 1;
-                    expect(handle.createState(mockList, {...mockPgnOption, page: mockCurrPage})).toEqual({
+                    expect(handle.getState(mockList, {...mockPgnOption, page: mockCurrPage})).toEqual({
                         curr: mockCurrPage,
                         startIdx: 4,
                         endIdx: undefined,
@@ -180,18 +180,18 @@ describe('Class - Paginate Handle', () => {
             });
         });
 
-        describe('Method: createOption - Create a new Pagination option from an option merged with either default or custom existing option', () => {
+        describe('Method: getOption - Create a new Pagination option from an option merged with either default or custom existing option', () => {
             const mockOption: Partial<IOption> = { page: 2 };
 
             it('should return an option merged with default option when existing option is not provided', () => {
                 spy.getDefOption.mockReturnValue({});
-                expect(handle.createOption(mockOption)).toEqual(mockOption);
+                expect(handle.getOption(mockOption)).toEqual(mockOption);
                 expect(spy.getDefOption).toHaveBeenCalled();
             });
 
             it('should return an option merged with existing option when it is provided', () => {
                 const mockExistOption = {} as IOption;
-                expect(handle.createOption(mockOption, mockExistOption)).toEqual(mockOption);
+                expect(handle.getOption(mockOption, mockExistOption)).toEqual(mockOption);
                 expect(spy.getDefOption).not.toHaveBeenCalled();
             });
         });
@@ -845,8 +845,8 @@ describe('Class - Paginate Handle', () => {
             const mockRtnPgnState = 'state'
 
             beforeEach(() => {
-                spy.createOption.mockReturnValue(mockRtnPgnOption);
-                spy.createState.mockReturnValue(mockRtnPgnState);
+                spy.getOption.mockReturnValue(mockRtnPgnOption);
+                spy.getState.mockReturnValue(mockRtnPgnState);
             });
 
             it('should return the event handler function when callback is provided', () => {
@@ -857,8 +857,8 @@ describe('Class - Paginate Handle', () => {
                 const evtHandler = handle.getGenericCmpEvtHandler(mockData, mockOption, mockEvtHandler);
                 evtHandler(mockModOption);
 
-                expect(spy.createOption).toHaveBeenCalledWith(mockModOption, mockOption);
-                expect(spy.createState).toHaveBeenCalledWith(mockData, mockRtnPgnOption);
+                expect(spy.getOption).toHaveBeenCalledWith(mockModOption, mockOption);
+                expect(spy.getState).toHaveBeenCalledWith(mockData, mockRtnPgnOption);
                 expect(mockEvtHandler).toHaveBeenCalledWith({
                     pgnOption: mockRtnPgnOption,
                     pgnState: mockRtnPgnState
@@ -873,8 +873,8 @@ describe('Class - Paginate Handle', () => {
                 const evtHandler = handle.getGenericCmpEvtHandler(mockData, mockOption);
                 evtHandler(mockModOption);
 
-                expect(spy.createOption).toHaveBeenCalledWith(mockModOption, mockOption);
-                expect(spy.createState).toHaveBeenCalledWith(mockData, mockRtnPgnOption);
+                expect(spy.getOption).toHaveBeenCalledWith(mockModOption, mockOption);
+                expect(spy.getState).toHaveBeenCalledWith(mockData, mockRtnPgnOption);
                 expect(mockEvtHandler).not.toHaveBeenCalledWith();
             });
         });
