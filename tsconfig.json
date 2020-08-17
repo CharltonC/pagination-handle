@@ -1,0 +1,29 @@
+{
+    "compileOnSave": false,
+    "compilerOptions": {
+        "outDir": "./dist/",
+        "baseUrl": "./src/",
+        "sourceMap": true,
+        "declaration": true,
+        "moduleResolution": "node",
+        "emitDecoratorMetadata": true,
+        "experimentalDecorators": true,
+        "allowSyntheticDefaultImports": true,
+        "target": "es5",
+        "typeRoots": [
+            "node_modules/@types"
+        ],
+        "lib": [
+            "es2017",
+            "dom"
+        ],
+        "esModuleInterop": true
+    },
+    "files": [
+        "src/index.ts"
+    ],
+    "exclude": [
+        "dist",
+        "src/index.spec.ts"
+    ]
+}

@@ -1,0 +1,60 @@
+{
+  "name": "pagination-handle",
+  "description": "generic lightweight pagination javascript library",
+  "keywords": [
+    "pagination",
+    "paginate",
+    "paginate dom element attributes"
+  ],
+  "homepage": "TODO",
+  "repository": {
+    "type": "git",
+    "url": "TODO"
+  },
+  "version": "1.0.0",
+  "license": "CC BY 4.0",
+  "engines": {
+    "npm": ">=6.14.4"
+  },
+  "author": {
+    "name": "Charlton Cheng",
+    "url": "https://github.com/charltonc"
+  },
+  "scripts": {
+    "build": "npm run clean && npm run lint && npm run test && npm run compile-dts && npm run compile-js",
+    "clean": "if [ -d './dist' ]; then rm -r dist; fi",
+    "lint": "npx eslint src/**",
+    "test": "npx jest",
+    "compile-js": "npx rollup -c",
+    "compile-dts": "npx dts-bundle-generator -o dist/index.d.ts src/index.ts"
+  },
+  "main": "dist/esm/index.js",
+  "types": "dist/index.d.ts",
+  "private": false,
+  "devDependencies": {
+    "@babel/core": "7.10.2",
+    "@babel/plugin-proposal-class-properties": "7.8.3",
+    "@babel/preset-env": "7.9.6",
+    "@babel/preset-typescript": "7.9.0",
+    "@rollup/plugin-babel": "5.2.0",
+    "@rollup/plugin-commonjs": "15.0.0",
+    "@rollup/plugin-node-resolve": "9.0.0",
+    "@types/jest": "25.2.1",
+    "@types/node": "13.13.4",
+    "@typescript-eslint/eslint-plugin": "2.30.0",
+    "@typescript-eslint/parser": "2.30.0",
+    "babel-core": "6.26.3",
+    "babel-eslint": "10.1.0",
+    "babel-jest": "25.5.1",
+    "babel-plugin-import": "1.13.0",
+    "confusing-browser-globals": "1.0.9",
+    "dts-bundle-generator": "5.3.0",
+    "eslint": "6.8.0",
+    "eslint-plugin-import": "2.20.2",
+    "jest": "25.5.3",
+    "rollup": "2.26.3",
+    "rollup-plugin-filesize": "9.0.2",
+    "rollup-plugin-terser": "7.0.0",
+    "typescript": "3.8.3"
+  }
+}
