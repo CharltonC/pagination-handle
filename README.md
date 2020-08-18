@@ -1,8 +1,8 @@
 # Pagination Handle
-#### Draft
 > Generic Pagination Handling JavaScript Library
 
 [![Build Status](https://travis-ci.org/CharltonC/pagination-handle.svg?branch=master)](https://travis-ci.org/github/CharltonC/pagination-handle)
+[![Coverage Status](https://coveralls.io/repos/github/CharltonC/pagination-handle/badge.svg?branch=master)](https://coveralls.io/github/CharltonC/pagination-handle?branch=master)
 
 #### Table of Contents:
 * About
