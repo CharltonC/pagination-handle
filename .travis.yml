@@ -1,0 +1,17 @@
+# Comment
+language: node_js
+
+node_js:
+  - "6.14.4"
+
+cache: npm
+
+# Not required to install global dependency, e.g. angular-cli
+install:
+  - npm install
+
+script:
+  - npm run lint && npm run test
+
+addons:
+  chrome: stable
