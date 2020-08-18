@@ -2,6 +2,8 @@
 #### Draft
 > Generic Pagination Handling JavaScript Library
 
+[![Build Status](https://travis-ci.org/CharltonC/pagination-handle.svg?branch=dev)](https://travis-ci.org/github/CharltonC/pagination-handle)
+
 #### Table of Contents:
 * About
 * Usage
