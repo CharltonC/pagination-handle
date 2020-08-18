@@ -15,7 +15,8 @@ install:
   - npm install
 
 script:
-  - npm run lint && npm run test
+  - npm run lint && npm run test-gen-cov
+  - npm run test-collect-cov
 
 addons:
   chrome: stable
