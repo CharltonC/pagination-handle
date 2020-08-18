@@ -6,6 +6,10 @@ node_js:
 
 cache: npm
 
+branches:
+  only:
+    - master
+
 # Not required to install global dependency, e.g. angular-cli
 install:
   - npm install
