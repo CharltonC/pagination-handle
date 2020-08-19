@@ -6,10 +6,10 @@
     "paginate",
     "paginate dom element attributes"
   ],
-  "homepage": "TODO",
+  "homepage": "https://github.com/CharltonC/pagination-handle",
   "repository": {
     "type": "git",
-    "url": "TODO"
+    "url": "https://github.com/CharltonC/pagination-handle"
   },
   "version": "0.0.1",
   "license": "CC BY 4.0",
@@ -30,8 +30,10 @@
     "compile-js": "npx rollup -c",
     "compile-dts": "npx dts-bundle-generator -o dist/index.d.ts src/index.ts"
   },
+  "publishConfig": { "registry": "https://npm.pkg.github.com/" },
   "main": "dist/esm/index.js",
   "types": "dist/index.d.ts",
+  "files": [ "dist" ],
   "private": false,
   "devDependencies": {
     "@babel/core": "7.10.2",
