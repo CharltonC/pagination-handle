@@ -13,13 +13,6 @@
 
 ---
 
-## About
-Primary Tech Stack: 
-* TypeScript 3.8.3
-* Node 13.12.0 | Npm 6.14.4
-* Jest 25.5.3
-
-
 ## Usage (Npm Pkg)
 #### Import/Setup:
 * via ES Module (Js/Ts/Tsx file)
@@ -34,14 +27,14 @@ const pgnHandle = new PgnHandle();
 ```
 * via UMD
 ```JavaScript
-const { PgnHandle } = window.PaginationHandle;
+const { PgnHandle } = window.PaginationHandle || PaginationHandle;
 const pgnHandle = new PgnHandle();
 ```
 * via Script Tag
 ```HTML
 <script src="<path>/<to>/<library>/umd/main.min.js"></script>
 <script>
-    const { PgnHandle } = window.PaginationHandle;
+    const { PgnHandle } = window.PaginationHandle || PaginationHandle;
     const pgnHandle = new PgnHandle();
 </script>
 ```
@@ -62,8 +55,9 @@ const pgnOption = {
 const pgnState = pgnHandle.getState(sampleData, pgnOption);
 ```
 
-#### Use with Component Lbrary:
+#### Use with Native JavaScript or Component Lbrary:
 ```JavaScript
+// Generate the generic attributes for each pagination elements
 const {
     firstBtnAttr,
     prevBtnAttr,
@@ -87,7 +81,7 @@ btn.disabled = firstBtnAttr.disabled;
 btn.addEventListener('click', firstBtnAttr.onClick);
 btn.textContent = firstBtnAttr.title;
 
-// React
+// React (only one attribute demostrated here)
 const PgnFristBtn = (firstBtnAttr) => {
     const { title, disabled, onClick } = firstBtnAttr;
     return (
@@ -137,7 +131,7 @@ const pgnStateTwo = pgnHandle.getState(sampleData, {...pgnOption, page: 1});
 | rtSpread      | integer or string | either a number (if less than the maxSpread) or '...' to indicate the non-displayed pages |
 | maxSpread     | integer           | total page interval that is represented by the spread '...', i.e. not shown               |
 
-#### Pagination Option `pgnOption`
+#### Pagination Option Object `pgnOption`
 | Property      | Type              | Description                                                             |
 |---------------|-------------------|-------------------------------------------------------------------------|
 | page          | integer           | index for default/starting page number (starts from 0)                  |
@@ -145,8 +139,38 @@ const pgnStateTwo = pgnHandle.getState(sampleData, {...pgnOption, page: 1});
 | incrementIdx  | integer           | the default increment value above                                       |
 | maxSpread     | integer           | maximum number of page interval that is represented by the spread '...' |
 
+#### General Button Attribute Object `firstBtnAttr`/`prevBtnAttr`/`nextBtnAttr`/`lastBtnAttr`
+| Property      | Type              | Description                                                             |
+|---------------|-------------------|-------------------------------------------------------------------------|
+| title         | string            | name of the button, one of `first` | `prev` | `next` | `last`           |
+| disabled      | boolean           | whether the button is disabled based on the current pagination state    |
+| onClick       | function          | page navigation callback when the button is clicked                     |
+
+#### Spread Button Attribute Object `ltSpreadBtnsAttr`/`rtSpreadBtnsAttr`
+| Property      | Type              | Description                                                             |
+|---------------|-------------------|-------------------------------------------------------------------------|
+| title         | string            | name of the spread button, default: `left-spread` or `right-spread`     |
+| isSpread      | boolean           | whether the button is the spread symbol (false if it is a number)       |
+| onClick       | function          | page navigation callback when the button is clicked                     |
+
+#### Select Attribute Object `perPageSelectAttr`/`getPageSelectAttr`
+| Property               | Type              | Description                                                                       |
+|------------------------|-------------------|-----------------------------------------------------------------------------------|
+| title                  | string            | name of select dropdown, default: `per page select`                               |
+| disabled               | boolean           | whether select dropdown is disabled based on the current pagination               |
+| options                | array of integers | list of total number displayed/allowed per page OR list of navigatable pages      |
+| selectedOptionValue    | integer           | value of current total number displayed/allowed per page OR current page number   |
+| selectedOptionIdx      | integer           | corresponding index of `selectedOptionValue` property in `options` property       |
+| onSelect               | function          | page navigation callback when the select option is changed                        |
+
 
 ## Development
+#### About
+Primary Tech Stack: 
+* TypeScript 3.8.3
+* Node 13.12.0 | Npm 6.14.4
+* Jest 25.5.3
+
 #### CLI Command
 * Build
 ```
