@@ -22,7 +22,7 @@ const pgnHandle = new PgnHandle();
 ```
 * via CommonJs (Js file)
 ```JavaScript
-const PgnHandle = require('pagination-handle');
+const { PgnHandle } = require('pagination-handle');
 const pgnHandle = new PgnHandle();
 ```
 * via UMD

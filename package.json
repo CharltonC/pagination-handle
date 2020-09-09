@@ -34,6 +34,12 @@
     "compile-dts": "npx dts-bundle-generator -o dist/index.d.ts src/index.ts"
   },
   "main": "dist/esm/index.js",
+  "exports": {
+    ".": {
+      "require": "./dist/cjs/index.js",
+      "default": "./dist/esm/index.js"
+    }
+  },
   "types": "dist/index.d.ts",
   "files": [ "dist" ],
   "private": false,
