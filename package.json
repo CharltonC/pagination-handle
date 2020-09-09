@@ -11,7 +11,7 @@
     "type": "git",
     "url": "https://github.com/CharltonC/pagination-handle.git"
   },
-  "version": "0.0.2",
+  "version": "0.0.3",
   "license": "MIT",
   "engines": {
     "npm": ">=6.14.4"
