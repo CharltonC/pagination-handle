@@ -326,9 +326,9 @@ var PgnHandle = /*#__PURE__*/function () {
 
       var endIdx = startIdx + perPage; // exclusive index
 
-      startIdx = Number.isInteger(startIdx) && startIdx <= totalRecord ? startIdx : undefined; // `undefined` is used as `null` cant be used as empty value in ES6
+      startIdx = startIdx < totalRecord ? startIdx : undefined; // `undefined` is used as `null` cant be used as empty value in ES6
 
-      endIdx = Number.isInteger(startIdx) && endIdx <= totalRecord ? endIdx : undefined;
+      endIdx = endIdx < totalRecord ? endIdx : undefined;
       return {
         startIdx: startIdx,
         endIdx: endIdx
