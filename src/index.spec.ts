@@ -345,18 +345,25 @@ describe('Class - Paginate Handle', () => {
         });
 
         describe('Method: getPageSliceIdx - Get the corresponding slice index for `slice` in the list array based on a provided page index', () => {
-            const mockPerPage: number = 2;
             const mockTotalRecord: number = 4;
+            const mockPerPage: number = 2;
             let mockPage: number;
             let slice: IPageSlice;
 
-            it('should return the index if it exists in the list array', () => {
-                mockPage = 1;
+            it('should return the index when given page is within page', () => {
+                mockPage = 0;
                 slice = handle.getPageSliceIdx(mockTotalRecord, mockPerPage, mockPage);
-                expect(slice).toEqual({startIdx: 2, endIdx: 4});
+                expect(slice).toEqual({startIdx: 0, endIdx: 2});
             });
 
-            it('should return the index as undefined if it doesnt exist in the list array', () => {
+            it('should return the index when given page is partially within page', () => {
+                mockPage = 1;
+                slice = handle.getPageSliceIdx(mockTotalRecord, mockPerPage, mockPage);
+                expect(slice).toEqual({startIdx: 2, endIdx: undefined});
+            });
+
+
+            it('should return the index as undefined when given page is out of range', () => {
                 mockPage = 3;
                 slice = handle.getPageSliceIdx(mockTotalRecord, mockPerPage, mockPage);
                 expect(slice).toEqual({startIdx: undefined, endIdx: undefined});

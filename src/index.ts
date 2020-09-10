@@ -146,8 +146,8 @@ class PgnHandle {
     getPageSliceIdx(totalRecord: number, perPage: number, page: number): IPageSlice {
         let startIdx: number = page * perPage;     // inclusive index
         let endIdx: number = startIdx + perPage;      // exclusive index
-        startIdx = Number.isInteger(startIdx) && startIdx <= totalRecord ? startIdx : undefined;   // `undefined` is used as `null` cant be used as empty value in ES6
-        endIdx = Number.isInteger(startIdx) && endIdx <= totalRecord ? endIdx : undefined;
+        startIdx = startIdx < totalRecord ? startIdx : undefined;   // `undefined` is used as `null` cant be used as empty value in ES6
+        endIdx = endIdx < totalRecord ? endIdx : undefined;
         return { startIdx, endIdx };
     }
 
