@@ -51,7 +51,7 @@ export default {
      * `name` is the global variable name for "umd" format where the output bundle is store under
      */
     output: [
-        ...getOutputConfig('cjs'),
+        ...getOutputConfig('cjs', { exports: 'auto' }),
         ...getOutputConfig('esm'),
         ...getOutputConfig('umd', { name: 'PaginationHandle' }),
     ],
