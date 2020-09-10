@@ -59,7 +59,7 @@ export interface ICmpAttr {
 	perPageSelectAttr: ICmpSelectAttr;
 }
 export interface ICmpAttrQuery {
-	data: any[];
+	totalRecord: number;
 	option: IOption;
 	state: IState;
 	callback: TFn;
@@ -81,27 +81,14 @@ export interface ICommonCmpAttr {
 }
 export declare type TPageList = (string | number)[];
 export declare type TFn = (...args: any[]) => any;
-/**
- * Usage:
- *      const list = ['a', 'b', 'c', 'd'];
- *
- *      const example = pgnHandle.getState(list, {
- *           page: 1,                       // optional starting page index
- *           increment: [100, 200, 300],    // used for <select>'s <option> (default 10 per page, i.e. [10])
- *           incrementIdx: 0,               // i.e. 100 per age
- *      });
- *
- *      const { startIdx, endIdx } = example;
- *      const listFor1stPage = list.slice(startIdx, endIdx);
- */
-export declare class PgnHandle {
+declare class PgnHandle {
 	/**
 	 * Merge the updated option with existing option (either custom or default)
 	 * e.g. existingOption = this.state.sortOption
 	 */
 	getOption(modOption: Partial<IOption>, existingOption?: IOption): IOption;
 	getDefOption(): IOption;
-	getState(list: any[], pgnOption: Partial<IOption>): IState;
+	getState(totalRecord: number, pgnOption: Partial<IOption>): IState;
 	getDefState(totalRecord: number, perPage: number): IState;
 	getRecordCtx(totalRecord: number, startIdx: number, endIdx?: number): IRecordCtx;
 	getNoPerPage(incrms: number[], incrmIdx: number, fallbackVal: number): number;
@@ -111,7 +98,7 @@ export declare class PgnHandle {
 	getRelPage(totalPage: number, currPage: number): IRelPage;
 	getRelPageCtx(pageRange: IPageRange, relPage: IRelPage): IRelPageCtx;
 	parseRelPage(relPage: IRelPage, relPageCtx: IRelPageCtx): IRelPage;
-	getPageSliceIdx(list: any[], perPage: number, page: number): IPageSlice;
+	getPageSliceIdx(totalRecord: number, perPage: number, page: number): IPageSlice;
 	/**
 	 * Get the page number for the left/right spread in relation to current page
 	 * - When remain < maxSpread, show `maxSpread` no. of pages
@@ -135,7 +122,6 @@ export declare class PgnHandle {
 	 */
 	getPageIdxForSpread(currPageIdx: number, maxSpread: number, isLtSpread: boolean): number;
 	canNavToPage({ curr, last }: IPageRange, { type, target }: IPageNavQuery): boolean;
-	isDefined(val?: any): boolean;
 	isGteZero(vals: any | any[]): boolean;
 	/**
 	 * Create Generic Attributes that can be passed/mapped to Attributes/Inputs/Props of Static HTML or Angular/React/Vue/etc Components
@@ -144,13 +130,14 @@ export declare class PgnHandle {
 	 * const callback = (modState => this.setState({...this.state, ...modState})).bind(this);
 	 * createGenericCmpProps({option, state, data, callback});
 	 */
-	createGenericCmpAttr({ data, option, state, callback }: ICmpAttrQuery): ICmpAttr;
+	createGenericCmpAttr({ totalRecord, option, state, callback }: ICmpAttrQuery): ICmpAttr;
 	getTextBtnAttr(onEvt: TFn, [title, pageIdx]: [string, number]): ICmpBtnAttr;
 	getSpreadBtnAttr(onEvt: TFn, state: IState, [page, isLtSpread]: [any, boolean]): ICmpBtnAttr;
 	getPageSelectAttr(onEvt: TFn, state: IState): ICmpSelectAttr;
 	getPerPageSelectAttr(onEvt: TFn, option: IOption): ICmpSelectAttr;
-	getGenericCmpEvtHandler(data: any[], option: IOption, callback?: TFn): TFn;
+	getGenericCmpEvtHandler(totalRecord: number, option: IOption, callback?: TFn): TFn;
 	getTargetPageIdxByPos(state: IState, pages: TPageList, [currPos, activePos]: [number, number]): number;
 }
+export default PgnHandle;
 
 export {};

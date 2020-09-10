@@ -144,8 +144,9 @@ function _nonIterableRest() {
 /**
  * Usage:
  *      const list = ['a', 'b', 'c', 'd'];
+ *      const totalRecord = list.length;
  *
- *      const example = pgnHandle.getState(list, {
+ *      const example = pgnHandle.getState(totalRecord, {
  *           page: 1,                       // optional starting page index
  *           increment: [100, 200, 300],    // used for <select>'s <option> (default 10 per page, i.e. [10])
  *           incrementIdx: 0,               // i.e. 100 per age
@@ -184,7 +185,7 @@ var PgnHandle = /*#__PURE__*/function () {
 
   }, {
     key: "getState",
-    value: function getState(list, pgnOption) {
+    value: function getState(totalRecord, pgnOption) {
       // Merge def. option with User's option
       var defOption = this.getDefOption();
 
@@ -199,7 +200,6 @@ var PgnHandle = /*#__PURE__*/function () {
 
       var perPage = this.getNoPerPage(increment, incrementIdx, defIncrmVal); // Skip if we only have 1 list item OR less than 2 pages
 
-      var totalRecord = list.length;
       var defState = this.getDefState(totalRecord, perPage);
       if (totalRecord <= 1) return defState;
       var totalPage = this.getTotalPage(totalRecord, perPage);
@@ -209,7 +209,7 @@ var PgnHandle = /*#__PURE__*/function () {
           curr = _this$getCurrPage.curr,
           pageNo = _this$getCurrPage.pageNo;
 
-      var currSlice = this.getPageSliceIdx(list, perPage, curr);
+      var currSlice = this.getPageSliceIdx(totalRecord, perPage, curr);
       var startIdx = currSlice.startIdx,
           endIdx = currSlice.endIdx;
       var recordCtx = this.getRecordCtx(totalRecord, startIdx, endIdx);
@@ -321,14 +321,14 @@ var PgnHandle = /*#__PURE__*/function () {
     }
   }, {
     key: "getPageSliceIdx",
-    value: function getPageSliceIdx(list, perPage, page) {
+    value: function getPageSliceIdx(totalRecord, perPage, page) {
       var startIdx = page * perPage; // inclusive index
 
       var endIdx = startIdx + perPage; // exclusive index
 
-      startIdx = this.isDefined(list[startIdx]) ? startIdx : undefined; // `undefined` is used as `null` cant be used as empty value in ES6
+      startIdx = Number.isInteger(startIdx) && startIdx <= totalRecord ? startIdx : undefined; // `undefined` is used as `null` cant be used as empty value in ES6
 
-      endIdx = this.isDefined(list[endIdx]) ? endIdx : undefined;
+      endIdx = Number.isInteger(startIdx) && endIdx <= totalRecord ? endIdx : undefined;
       return {
         startIdx: startIdx,
         endIdx: endIdx
@@ -434,11 +434,6 @@ var PgnHandle = /*#__PURE__*/function () {
       }
     }
   }, {
-    key: "isDefined",
-    value: function isDefined(val) {
-      return typeof val !== 'undefined';
-    }
-  }, {
     key: "isGteZero",
     value: function isGteZero(vals) {
       return Array.isArray(vals) ? vals.every(function (val) {
@@ -459,7 +454,7 @@ var PgnHandle = /*#__PURE__*/function () {
     value: function createGenericCmpAttr(_ref3) {
       var _this2 = this;
 
-      var data = _ref3.data,
+      var totalRecord = _ref3.totalRecord,
           option = _ref3.option,
           state = _ref3.state,
           callback = _ref3.callback;
@@ -469,7 +464,7 @@ var PgnHandle = /*#__PURE__*/function () {
           last = state.last,
           ltSpread = state.ltSpread,
           rtSpread = state.rtSpread;
-      var onEvt = this.getGenericCmpEvtHandler(data, option, callback);
+      var onEvt = this.getGenericCmpEvtHandler(totalRecord, option, callback);
       return {
         // Attr. for First/Prev/Next/Last as Button
         firstBtnAttr: this.getTextBtnAttr(onEvt, ['first', first]),
@@ -584,13 +579,13 @@ var PgnHandle = /*#__PURE__*/function () {
     }
   }, {
     key: "getGenericCmpEvtHandler",
-    value: function getGenericCmpEvtHandler(data, option, callback) {
+    value: function getGenericCmpEvtHandler(totalRecord, option, callback) {
       var _this4 = this;
 
       return function (modOption) {
         var pgnOption = _this4.getOption(modOption, option);
 
-        var pgnState = _this4.getState(data, pgnOption);
+        var pgnState = _this4.getState(totalRecord, pgnOption);
 
         if (callback) callback({
           pgnOption: pgnOption,
@@ -616,5 +611,5 @@ var PgnHandle = /*#__PURE__*/function () {
   return PgnHandle;
 }();
 
-export { PgnHandle };
+export default PgnHandle;
 //# sourceMappingURL=index.js.map
