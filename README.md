@@ -17,33 +17,28 @@
 #### Import/Setup:
 * via ES Module (Js/Ts/Tsx file)
 ```JavaScript
-import { PgnHandle } from 'pagination-handle';
+import PgnHandle from 'pagination-handle';
 const pgnHandle = new PgnHandle();
 ```
 * via CommonJs (Js file)
 ```JavaScript
-const { PgnHandle } = require('pagination-handle');
+const PgnHandle = require('pagination-handle');
 const pgnHandle = new PgnHandle();
 ```
-* via UMD
+* via UMD (Js file)
 ```JavaScript
-const { PgnHandle } = window.PaginationHandle || PaginationHandle;
-const pgnHandle = new PgnHandle();
+const pgnHandle = new PaginationHandle();
 ```
-* via Script Tag
+* via Script Tag (HTML)
 ```HTML
 <script src="<path>/<to>/<library>/umd/main.min.js"></script>
 <script>
-    const { PgnHandle } = window.PaginationHandle || PaginationHandle;
-    const pgnHandle = new PgnHandle();
+    const pgnHandle = new PaginationHandle();
 </script>
 ```
 
 #### Get Pagination State:
 ```JavaScript
-import { PgnHandle } from 'pagination-handle';
-const pgnHandle = new PgnHandle();
-
 const sampleData = [ 'a', 'b', 'c' ];
 const pgnOption = {
     page: 0,                // start at 1st page
