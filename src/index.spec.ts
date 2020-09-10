@@ -4,7 +4,7 @@ import {
     IPageCtx, IPageSlice, IPageRange, IRelPage, IRelPageCtx, ISpreadCtx,
     ICmpAttrQuery, TPageList,
 } from './type';
-import { PgnHandle } from '.';
+import PgnHandle from '.';
 
 describe('Class - Paginate Handle', () => {
     function spyMethods(target: Record<string, any>): Record<string, jest.SpyInstance> {

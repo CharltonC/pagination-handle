@@ -19,7 +19,7 @@ import {
  *      const { startIdx, endIdx } = example;
  *      const listFor1stPage = list.slice(startIdx, endIdx);
  */
-export class PgnHandle {
+class PgnHandle {
     //// Option
     /**
      * Merge the updated option with existing option (either custom or default)
@@ -382,3 +382,5 @@ export class PgnHandle {
         return targetPageIdx;
     }
 }
+
+export default PgnHandle;
