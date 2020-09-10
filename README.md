@@ -249,6 +249,8 @@ npm run clean
 
 
 ## Release
+* 0.1.1
+    * Fixed edge case senario for page range
 * 0.1.0
     * Param simplification for pagination state query
 * 0.0.4
