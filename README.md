@@ -5,15 +5,28 @@
 [![Coverage Status](https://coveralls.io/repos/github/CharltonC/pagination-handle/badge.svg?branch=master)](https://coveralls.io/github/CharltonC/pagination-handle?branch=master)
 
 #### Table of Contents:
-* About
+* General
 * Usage
-* Development
-* CLI Build Command
-* Folder Structure
+    * Import/Setup
+    * Get Pagination State
+    * Use the Generic Attributes to create your own element/component
+    * Manual Navigation & Callback
+    * API
+* Contribution/Development
+    * Primary Tech Stack
+    * CLI Command
+    * Folder Structure
+
+* Release
 
 ---
+## General
+#### Build Size (ESM/UMD/CJS)
+* Minified Size: 8KB
+* Gzipped: 2.7KB
 
-## Usage (Npm Pkg)
+
+## Usage
 #### Import/Setup:
 * via ES Module (Js/Ts/Tsx file)
 ```JavaScript
@@ -40,6 +53,7 @@ const pgnHandle = new PaginationHandle();
 #### Get Pagination State:
 ```JavaScript
 const sampleData = [ 'a', 'b', 'c' ];
+const totalRecord = sampleData.length;
 const pgnOption = {
     page: 0,                // start at 1st page
     increment: [ 1, 2 ],    // typically for select dropdown: 1 per page, 2 per page
@@ -47,12 +61,34 @@ const pgnOption = {
     maxSpread: 3          
 };
 
-const pgnState = pgnHandle.getState(sampleData, pgnOption);
-```
+// get the pagination state only
+const pgnState = pgnHandle.getState(totalRecord, pgnOption);
+const {
+    perPage,
+    totalPage,
+    curr,
+    pageNo,
+    startIdx,
+    endIdx,
+    first,
+    prev,
+    next,
+    last,
+    totalRecord,
+    startRecord,
+    endRecord,
+    ltSpread,
+    rtSpread,
+    maxSpread
+} = pgnState;
 
-#### Use with Native JavaScript or Component Lbrary:
-```JavaScript
-// Generate the generic attributes for each pagination elements
+// get the generic pagination element attributes to construct elements on your own
+const genericComponentAttr = pgnHandle.createGenericCmpAttr({
+    totalRecord,
+    state: pgnState,
+    option: pgnOption,
+    callback: () => console.log('pgn state changed')
+});
 const {
     firstBtnAttr,
     prevBtnAttr,
@@ -62,21 +98,19 @@ const {
     rtSpreadBtnsAttr,
     pageSelectAttr,
     perPageSelectAttr,
-} = pgnHandle.createGenericCmpAttr({
-    data: sampleData,
-    state: pgnState,
-    option: pgnOption,
-    callback: () => console.log('pgn state changed')
-});
+} = genericComponentAttr;
+```
 
-// JavaScript
+#### Use the Generic Attributes to create your own element/component
+```JavaScript
+// JavaScript Example
 const btn = document.createElement('button');
 btn.type = 'button';
 btn.disabled = firstBtnAttr.disabled;
 btn.addEventListener('click', firstBtnAttr.onClick);
 btn.textContent = firstBtnAttr.title;
 
-// React (only one attribute demostrated here)
+// React Example
 const PgnFristBtn = (firstBtnAttr) => {
     const { title, disabled, onClick } = firstBtnAttr;
     return (
@@ -87,21 +121,13 @@ const PgnFristBtn = (firstBtnAttr) => {
 };
 ```
 
-#### Navigation & Callback:
+#### Manual Navigation & Callback:
 ```JavaScript
-const sampleData = [ 'a', 'b', 'c' ];
-const pgnOption = {
-    page: 0,                // start at 1st page
-    increment: [ 1, 2 ],    // typically for select dropdown: 1 per page, 2 per page
-    incrementIdx: 0,        // `increment = 1` from abov
-    maxSpread: 3          
-};
-
 // start with page 0
-const pgnStateOne = pgnHandle.getState(sampleData, pgnOption);
+const pgnStateOne = pgnHandle.getState(totalRecord, pgnOption);
 
 // go to page 1
-const pgnStateTwo = pgnHandle.getState(sampleData, {...pgnOption, page: 1});
+const pgnStateTwo = pgnHandle.getState(totalRecord, {...pgnOption, page: 1});
 ```
 
 
@@ -109,59 +135,58 @@ const pgnStateTwo = pgnHandle.getState(sampleData, {...pgnOption, page: 1});
 #### Pagination State Object `pgnState`
 | Property      | Type              | Description                                                                               |
 |---------------|-------------------|-------------------------------------------------------------------------------------------|
-| perPage       | integer           | current total number displayed/allowed per page                                           |
-| totalPage     | integer           | total number of pages                                                                     |
-| curr          | integer           | current page index (starts from 0)                                                        |
-| pageNo        | integer           | current page number (starts from 1)                                                       |
-| startIdx      | integer           | index for start page                                                                      |
-| endIdx        | integer           | index for last page                                                                       |
-| first         | integer           | index for first page                                                                      |
-| prev          | integer           | index for previous page                                                                   |
-| next          | integer           | index for next page                                                                       |
-| last          | integer           | index for last page                                                                       |
-| totalRecord   | integer           | total number of records in data                                                           |
-| startRecord   | integer           | starting index for current displayed data                                                 |
-| endRecord     | integer           | end index (non-inclusive) for current displayed data                                      |
-| ltSpread      | integer or string | either a number (if less than the maxSpread) or '...' to indicate the non-displayed pages |
-| rtSpread      | integer or string | either a number (if less than the maxSpread) or '...' to indicate the non-displayed pages |
-| maxSpread     | integer           | total page interval that is represented by the spread '...', i.e. not shown               |
+| `perPage`     | integer           | current total number displayed/allowed per page                                           |
+| `totalPage`   | integer           | total number of pages                                                                     |
+| `curr`        | integer           | current page index (starts from 0)                                                        |
+| `pageNo`      | integer           | current page number (starts from 1)                                                       |
+| `startIdx`    | integer           | index for start page                                                                      |
+| `endIdx`      | integer           | index for last page                                                                       |
+| `first`       | integer           | index for first page                                                                      |
+| `prev`        | integer           | index for previous page                                                                   |
+| `next`        | integer           | index for next page                                                                       |
+| `last`        | integer           | index for last page                                                                       |
+| `totalRecord` | integer           | total number of records in data                                                           |
+| `startRecord` | integer           | starting index for current displayed data                                                 |
+| `endRecord`   | integer           | end index (non-inclusive) for current displayed data                                      |
+| `ltSpread`    | integer or string | either a number (if less than the maxSpread) or '...' to indicate the non-displayed pages |
+| `rtSpread`    | integer or string | either a number (if less than the maxSpread) or '...' to indicate the non-displayed pages |
+| `maxSpread`   | integer           | total page interval that is represented by the spread '...', i.e. not shown               |
 
 #### Pagination Option Object `pgnOption`
 | Property      | Type              | Description                                                             |
 |---------------|-------------------|-------------------------------------------------------------------------|
-| page          | integer           | index for default/starting page number (starts from 0)                  |
-| increment     | array of integers | available increments typically for the dropdown, e.g. [10, 20]          |
-| incrementIdx  | integer           | the default increment value above                                       |
-| maxSpread     | integer           | maximum number of page interval that is represented by the spread '...' |
+| `page`        | integer           | index for default/starting page number (starts from 0)                  |
+| `increment`   | array of integers | available increments typically for the dropdown, e.g. [10, 20]          |
+| `incrementIdx`| integer           | the default increment value above                                       |
+| `maxSpread`   | integer           | maximum number of page interval that is represented by the spread '...' |
 
 #### General Button Attribute Object `firstBtnAttr`/`prevBtnAttr`/`nextBtnAttr`/`lastBtnAttr`
 | Property      | Type              | Description                                                             |
 |---------------|-------------------|-------------------------------------------------------------------------|
-| title         | string            | name of the button, one of `first` | `prev` | `next` | `last`           |
-| disabled      | boolean           | whether the button is disabled based on the current pagination state    |
-| onClick       | function          | page navigation callback when the button is clicked                     |
+| `title`       | string            | name of the button, one of the values: `first` `prev` `next` `last`     |
+| `disabled`    | boolean           | whether the button is disabled based on the current pagination state    |
+| `onClick`     | function          | page navigation callback when the button is clicked                     |
 
 #### Spread Button Attribute Object `ltSpreadBtnsAttr`/`rtSpreadBtnsAttr`
 | Property      | Type              | Description                                                             |
 |---------------|-------------------|-------------------------------------------------------------------------|
-| title         | string            | name of the spread button, default: `left-spread` or `right-spread`     |
-| isSpread      | boolean           | whether the button is the spread symbol (false if it is a number)       |
-| onClick       | function          | page navigation callback when the button is clicked                     |
+| `title`       | string            | name of the spread button, default: `left-spread` or `right-spread`     |
+| `isSpread`    | boolean           | whether the button is the spread symbol (false if it is a number)       |
+| `onClick`     | function          | page navigation callback when the button is clicked                     |
 
 #### Select Attribute Object `perPageSelectAttr`/`getPageSelectAttr`
 | Property               | Type              | Description                                                                       |
 |------------------------|-------------------|-----------------------------------------------------------------------------------|
-| title                  | string            | name of select dropdown, default: `per page select`                               |
-| disabled               | boolean           | whether select dropdown is disabled based on the current pagination               |
-| options                | array of integers | list of total number displayed/allowed per page OR list of navigatable pages      |
-| selectedOptionValue    | integer           | value of current total number displayed/allowed per page OR current page number   |
-| selectedOptionIdx      | integer           | corresponding index of `selectedOptionValue` property in `options` property       |
-| onSelect               | function          | page navigation callback when the select option is changed                        |
+| `title`                | string            | name of select dropdown, default: `per page select`                               |
+| `disabled`             | boolean           | whether select dropdown is disabled based on the current pagination               |
+| `options`              | array of integers | list of total number displayed/allowed per page OR list of navigatable pages      |
+| `selectedOptionValue`  | integer           | value of current total number displayed/allowed per page OR current page number   |
+| `selectedOptionIdx`    | integer           | corresponding index of `selectedOptionValue` property in `options` property       |
+| `onSelect`             | function          | page navigation callback when the select option is changed                        |
 
 
-## Development
-#### About
-Primary Tech Stack: 
+## Contribution/Development
+#### Primary Tech Stack: 
 * TypeScript 3.8.3
 * Node 13.12.0 | Npm 6.14.4
 * Jest 25.5.3
@@ -221,3 +246,16 @@ npm run clean
     package.json                // dev-dependencies, dependencies for the project    
     .gitignore                  // git ignored
     README.md                   // readme
+
+
+## Release
+* 0.1.0
+    * Param simplification for pagination state query
+* 0.0.4
+    * Test Publish
+* 0.0.3
+    * Test Publish
+* 0.0.2
+    * Test Publish
+* 0.0.1
+    * Test Publish        
