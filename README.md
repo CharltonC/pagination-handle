@@ -56,7 +56,7 @@ const totalRecord = sampleData.length;
 const pgnOption = {
     page: 0,                // start at 1st page
     increment: [ 1, 2 ],    // typically for select dropdown: 1 per page, 2 per page
-    incrementIdx: 0,        // `increment = 1` from abov
+    incrementIdx: 0,        // means increment is 1 from above
     maxSpread: 3          
 };
 
@@ -80,6 +80,9 @@ const {
     rtSpread,
     maxSpread
 } = pgnState;
+
+// get the corresponding "visible" data slice
+const sampleDataSlice = sampleData.slice(startIdx, endIdx);
 
 // get the generic pagination element attributes to construct elements on your own
 const genericComponentAttr = pgnHandle.createGenericCmpAttr({
@@ -125,8 +128,11 @@ const PgnFristBtn = (firstBtnAttr) => {
 // start with page 0
 const pgnStateOne = pgnHandle.getState(totalRecord, pgnOption);
 
-// go to page 1
-const pgnStateTwo = pgnHandle.getState(totalRecord, {...pgnOption, page: 1});
+// go to next page
+const pgnStateTwo = pgnHandle.getState(totalRecord, {
+    ...pgnOption, 
+    page: pgnStateOne.next
+});
 ```
 
 
@@ -138,8 +144,8 @@ const pgnStateTwo = pgnHandle.getState(totalRecord, {...pgnOption, page: 1});
 | `totalPage`   | integer           | total number of pages                                                                     |
 | `curr`        | integer           | current page index (starts from 0)                                                        |
 | `pageNo`      | integer           | current page number (starts from 1)                                                       |
-| `startIdx`    | integer           | index for start page                                                                      |
-| `endIdx`      | integer           | index for last page                                                                       |
+| `startIdx`    | integer           | start index (inclusive) for the sliced data                                               |
+| `endIdx`      | integer           | end index (exclusive) for the sliced data                                                 |
 | `first`       | integer           | index for first page                                                                      |
 | `prev`        | integer           | index for previous page                                                                   |
 | `next`        | integer           | index for next page                                                                       |
