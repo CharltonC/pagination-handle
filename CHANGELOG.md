@@ -1,3 +1,7 @@
+#### 0.1.2
+* Added license 
+* Corrected minor API Docs
+
 #### 0.1.1
 * Fixed edge case senario for page range
 
