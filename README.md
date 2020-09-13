@@ -20,6 +20,9 @@
 ---
 
 ## General
+#### Links
+* [NPM Package](https://www.npmjs.com/package/pagination-handle)
+
 #### Build Size (ESM/UMD/CJS)
 * Minified Size: 8KB
 * Gzipped: 2.7KB
