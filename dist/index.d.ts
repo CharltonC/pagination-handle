@@ -140,4 +140,6 @@ declare class PgnHandle {
 }
 export default PgnHandle;
 
+export as namespace PgnType;
+
 export {};

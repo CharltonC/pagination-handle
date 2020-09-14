@@ -6,6 +6,8 @@
 
 #### Table of Contents:
 * General
+    * Links
+    * Build Size
 * Usage
     * Import/Setup
     * Get Pagination State
@@ -62,6 +64,9 @@ const pgnOption = {
     incrementIdx: 0,        // means increment is 1 from above
     maxSpread: 3          
 };
+
+// using builtin Type under `PgnType` namespace (no import required)
+let someOption: PgnType.IOption;
 
 // get the pagination state only
 const pgnState = pgnHandle.getState(totalRecord, pgnOption);

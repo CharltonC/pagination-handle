@@ -31,7 +31,7 @@
     "test-gen-cov": "npm run test -- --collectCov=true",
     "test-collect-cov": "cat ./coverage/lcov.info | coveralls",
     "compile-js": "npx rollup -c",
-    "compile-dts": "npx dts-bundle-generator -o dist/index.d.ts src/index.ts",
+    "compile-dts": "npx dts-bundle-generator --umd-module-name PgnType --inline-declare-externals -o dist/index.d.ts src/index.ts",
     "pub-login": "npm login --registry=https://registry.npmjs.org/",
     "pub-pub": "npm publish --access public"
   },
