@@ -1,3 +1,6 @@
+#### 0.1.3
+* Allow easier type support
+
 #### 0.1.2
 * Added license 
 * Corrected minor API Docs
